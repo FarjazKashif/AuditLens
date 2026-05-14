@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=JetBrains+Mono:wght@400;450;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #131315;
+            color: #e5e1e4;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background-color: rgba(24, 24, 27, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .grid-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131315;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3c494c;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e5e1e4",
+                        "surface-container-high": "#2a2a2c",
+                        "on-secondary": "#002e6a",
+                        "surface-bright": "#39393b",
+                        "on-primary-fixed": "#001f25",
+                        "primary-fixed": "#a2eeff",
+                        "primary": "#8aebff",
+                        "surface-variant": "#353437",
+                        "secondary-container": "#0566d9",
+                        "tertiary-container": "#ffb13b",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary-fixed-dim": "#ffb957",
+                        "inverse-on-surface": "#313032",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#2a1800",
+                        "primary-fixed-dim": "#2fd9f4",
+                        "surface-container-highest": "#353437",
+                        "outline": "#859397",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-container": "#6e4600",
+                        "tertiary": "#ffd6a3",
+                        "surface-tint": "#2fd9f4",
+                        "surface-dim": "#131315",
+                        "primary-container": "#22d3ee",
+                        "on-primary": "#00363e",
+                        "background": "#131315",
+                        "on-surface-variant": "#bbc9cd",
+                        "on-primary-container": "#005763",
+                        "surface-container": "#201f22",
+                        "secondary": "#adc6ff",
+                        "on-surface": "#e5e1e4",
+                        "on-background": "#e5e1e4",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "outline-variant": "#3c494c",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary-container": "#e6ecff",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed": "#ffddb5",
+                        "surface-container-low": "#1c1b1d",
+                        "surface": "#131315",
+                        "on-primary-fixed-variant": "#004e5a",
+                        "inverse-primary": "#006877",
+                        "on-tertiary": "#462b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "pane-min-width": "320px",
+                        "sidebar-width": "260px",
+                        "unit": "4px",
+                        "margin-desktop": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "body-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "code-sm": ["JetBrains Mono"],
+                        "headline-md": ["Geist"],
+                        "headline-sm": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md text-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface-dim dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center w-full px-margin-desktop h-16 z-50">
+<div class="flex items-center gap-8">
+<span class="font-headline-sm text-headline-sm font-black tracking-tighter text-primary dark:text-primary">AuditLens</span>
+<div class="hidden md:flex items-center gap-6">
+<nav class="flex gap-4">
+<a class="text-on-surface-variant hover:bg-surface-variant transition-colors px-3 py-1 font-data-mono text-label-caps uppercase tracking-wider" href="#">Live Feed</a>
+<a class="text-primary font-bold px-3 py-1 font-data-mono text-label-caps uppercase tracking-wider border-b border-primary" href="#">Event Explorer</a>
+<a class="text-on-surface-variant hover:bg-surface-variant transition-colors px-3 py-1 font-data-mono text-label-caps uppercase tracking-wider" href="#">Playbooks</a>
+</nav>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-variant rounded">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface-dim"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-variant rounded">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-variant rounded">help</span>
+<div class="h-8 w-8 rounded bg-primary/20 border border-primary/40 overflow-hidden ml-2">
+<img alt="Analyst Profile Avatar" class="h-full w-full object-cover" data-alt="A small, stylized avatar image representing a cybersecurity professional in a dark, high-tech interface. The avatar uses a geometric identicon pattern in shades of cyan and dark grey, fitting the technical minimalist brand identity. The background of the avatar is a dark, matte surface typical of advanced digital dashboards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjy9kVu3OCfFe_45q4NOhXrcsXlxR1ibkI0T4BIChSkqQnKZkorFFbopBKpcybd9q8ccZNC29jzl9xaQBfDX9b8Es0ZbMQ_4jbVekaso6vDIOXWDQuxw-ObRSalD-YIeApWZEXi0JcAsoKfTnDqh-hqRHvDS5TySFgtD1vzenlLLZUoh4fgRCQY0p7Aoi6BjSCeoBHQ5N4kztCUMRhkyCuxYTW6A8jfzXGE7P8SR9bwH_1KoJm3XKYavqxt6Gdmc2KEoAC7m9xiNM"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-surface-container dark:bg-surface-container border-r border-outline-variant flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] z-40 py-gutter w-sidebar-width hidden lg:flex">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_rgba(138,235,255,0.6)]"></span>
+<span class="font-label-caps text-label-caps font-bold text-primary">SOC-NODE-01</span>
+</div>
+<div class="font-label-caps text-[9px] text-on-surface-variant opacity-60">SYSTEM ACTIVE • UPTIME 99.9%</div>
+</div>
+<div class="flex-1 space-y-1 px-2">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-primary border-l-2 border-primary bg-primary/5 transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">security</span>
+<span class="font-label-caps text-label-caps">Incidents</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">biotech</span>
+<span class="font-label-caps text-label-caps">Threat Hunt</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+<span class="font-label-caps text-label-caps">Intelligence</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-label-caps text-label-caps">Logs</span>
+</button>
+</div>
+<div class="px-4 mb-4">
+<button class="w-full bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 py-2 font-label-caps text-label-caps transition-colors">
+                    NEW INVESTIGATION
+                </button>
+</div>
+<div class="mt-auto px-2 space-y-1 border-t border-outline-variant/30 pt-4">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">pulse_alert</span>
+<span class="font-label-caps text-label-caps uppercase">Health</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-bright transition-all duration-200">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="font-label-caps text-label-caps uppercase">Support</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-sidebar-width overflow-hidden flex flex-col bg-background grid-bg relative">
+<!-- Filter Bar -->
+<div class="p-4 border-b border-outline-variant bg-surface-container-low/50 backdrop-blur-sm sticky top-0 z-30">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm">Event Explorer</span>
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold border border-primary/20 tracking-widest">LIVE DATA</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant hover:bg-surface-bright transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span class="font-label-caps text-label-caps">Export to CSV</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-primary text-on-primary font-bold hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span class="font-label-caps text-label-caps">Start Capture</span>
+</button>
+</div>
+</div>
+<!-- Search/Filter Row -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+<div class="md:col-span-5 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/30 pl-10 pr-4 py-2 font-data-mono text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search raw logs (e.g. host:WS-01 AND severity:high)" type="text"/>
+</div>
+<div class="md:col-span-2 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">schedule</span>
+<select class="w-full bg-surface-container-lowest border border-outline-variant/30 pl-10 pr-4 py-2 font-data-mono text-body-md appearance-none focus:border-primary outline-none">
+<option>Last 15 minutes</option>
+<option>Last 1 hour</option>
+<option>Last 24 hours</option>
+<option>Custom Range</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<select class="w-full bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 font-data-mono text-body-md appearance-none focus:border-primary outline-none">
+<option>All Sources</option>
+<option>WinEventLog</option>
+<option>Syslog</option>
+<option>AWS CloudTrail</option>
+</select>
+</div>
+<div class="md:col-span-2">
+<select class="w-full bg-surface-container-lowest border border-outline-variant/30 px-4 py-2 font-data-mono text-body-md appearance-none focus:border-primary outline-none">
+<option>All Severities</option>
+<option>Critical</option>
+<option>High</option>
+<option>Low</option>
+</select>
+</div>
+<div class="md:col-span-1">
+<button class="w-full h-full flex items-center justify-center border border-outline-variant/30 hover:bg-surface-bright text-on-surface-variant">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Table Container -->
+<div class="flex-1 overflow-auto custom-scrollbar">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead class="bg-surface-container-high sticky top-0 z-20">
+<tr>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Timestamp</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">User</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Host</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Action</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Severity</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Source</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="px-4 py-2 border-b border-outline-variant/50 w-10"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1: Critical -->
+<tr class="hover:bg-error/5 group transition-colors cursor-pointer bg-error/10">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:02:11.882</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface font-semibold">SYSTEM</td>
+<td class="px-4 py-2 font-data-mono text-body-md">DC-PROD-01</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-error">CREATION_SUSPICIOUS</td>
+<td class="px-4 py-2">
+<span class="bg-error/15 text-error px-2 py-0.5 rounded text-[10px] font-bold border border-error/20">CRITICAL</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Sysmon</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Process</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- Row 2: Warning -->
+<tr class="hover:bg-surface-bright group transition-colors cursor-pointer">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:01:55.102</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface">j.doe</td>
+<td class="px-4 py-2 font-data-mono text-body-md">WKST-772</td>
+<td class="px-4 py-2 font-data-mono text-body-md">POWERSHELL_SCRIPT</td>
+<td class="px-4 py-2">
+<span class="bg-tertiary/15 text-tertiary px-2 py-0.5 rounded text-[10px] font-bold border border-tertiary/20">WARNING</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">WinEventLog</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Execution</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- More Rows -->
+<tr class="hover:bg-surface-bright group transition-colors cursor-pointer">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:01:42.001</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface">svc_backup</td>
+<td class="px-4 py-2 font-data-mono text-body-md">FILE-SRV-02</td>
+<td class="px-4 py-2 font-data-mono text-body-md">ACCESS_DENIED</td>
+<td class="px-4 py-2">
+<span class="bg-primary/15 text-primary px-2 py-0.5 rounded text-[10px] font-bold border border-primary/20">INFO</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">WinEventLog</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Auth</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- Duplicate rows to show density -->
+<tr class="hover:bg-surface-bright group transition-colors cursor-pointer">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:01:30.992</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface">m.smith</td>
+<td class="px-4 py-2 font-data-mono text-body-md">WKST-412</td>
+<td class="px-4 py-2 font-data-mono text-body-md">NETWORK_CONN</td>
+<td class="px-4 py-2">
+<span class="bg-primary/15 text-primary px-2 py-0.5 rounded text-[10px] font-bold border border-primary/20">INFO</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Syslog</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Network</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright group transition-colors cursor-pointer">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:01:28.115</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface">j.doe</td>
+<td class="px-4 py-2 font-data-mono text-body-md">WKST-772</td>
+<td class="px-4 py-2 font-data-mono text-body-md">PROCESS_EXEC</td>
+<td class="px-4 py-2">
+<span class="bg-primary/15 text-primary px-2 py-0.5 rounded text-[10px] font-bold border border-primary/20">INFO</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Sysmon</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Execution</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+<!-- Row with Warning -->
+<tr class="hover:bg-tertiary/5 group transition-colors cursor-pointer">
+<td class="px-4 py-2 font-data-mono text-code-sm text-on-surface-variant">2023-11-24 14:00:59.002</td>
+<td class="px-4 py-2 font-data-mono text-body-md text-on-surface">admin</td>
+<td class="px-4 py-2 font-data-mono text-body-md">DC-PROD-01</td>
+<td class="px-4 py-2 font-data-mono text-body-md">LOGOUT_FAILURE</td>
+<td class="px-4 py-2">
+<span class="bg-tertiary/15 text-tertiary px-2 py-0.5 rounded text-[10px] font-bold border border-tertiary/20">WARNING</span>
+</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">WinEventLog</td>
+<td class="px-4 py-2 font-data-mono text-body-md opacity-70">Auth</td>
+<td class="px-4 py-2 text-right">
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Side Panel (Quick View) -->
+<div class="fixed right-0 top-16 h-[calc(100vh-64px)] w-[450px] glass-panel border-l border-outline-variant z-40 transform transition-transform translate-x-0 flex flex-col shadow-2xl">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-container-highest">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary">EVENT DETAIL</span>
+<span class="font-data-mono text-code-sm opacity-60">ID: 4104-582-12</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-auto p-4 bg-surface-container-lowest/80 custom-scrollbar">
+<div class="space-y-6">
+<!-- Event Meta -->
+<div class="grid grid-cols-2 gap-4">
+<div class="p-2 border border-outline-variant/20 rounded bg-surface-container-low">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">Source IP</div>
+<div class="font-data-mono text-body-md">192.168.1.104</div>
+</div>
+<div class="p-2 border border-outline-variant/20 rounded bg-surface-container-low">
+<div class="text-[10px] font-label-caps text-on-surface-variant mb-1">Target Host</div>
+<div class="font-data-mono text-body-md">DC-PROD-01</div>
+</div>
+</div>
+<!-- Raw JSON View -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps">RAW EVENT JSON</span>
+<button class="text-[10px] font-label-caps text-primary hover:underline">COPY RAW</button>
+</div>
+<div class="bg-black/40 p-4 rounded border border-outline-variant/10 font-data-mono text-code-sm leading-relaxed overflow-x-auto text-on-primary-container">
+<pre>{
+  "event_id": "4104",
+  "task": "Execute a Remote Command",
+  "level": "Critical",
+  "payload": {
+    "command": "powershell.exe -enc SQBFAFgA...",
+    "user": "SYSTEM",
+    "parent_process": "services.exe",
+    "hash": "SHA256:77D9...",
+    "threat_score": 92
+  },
+  "context": {
+    "domain": "CORP.LOCAL",
+    "logon_id": "0x3e7"
+  }
+}</pre>
+</div>
+</div>
+<!-- Intelligence Correlation -->
+<div class="p-4 border border-error/30 bg-error/5 rounded space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+<span class="font-label-caps text-label-caps text-error">Intelligence Alert</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">
+                                Command payload matches signature <span class="font-data-mono text-error">SUSP_PS_BASE64_DECODE</span>. Linked to known APT activity (Obsidian Panda).
+                            </p>
+<button class="w-full bg-error text-on-error py-2 font-label-caps text-label-caps font-bold">PIVOT TO TIMELINE</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Pagination -->
+<footer class="h-12 border-t border-outline-variant bg-surface-container-low flex items-center justify-between px-4 z-30">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-[11px] text-on-surface-variant">Displaying 1 - 50 of 24,192 events</span>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-[11px] text-primary">Capture Live: 12 events/sec</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1 hover:bg-surface-bright text-on-surface-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">first_page</span>
+</button>
+<button class="p-1 hover:bg-surface-bright text-on-surface-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex items-center gap-1">
+<input class="w-8 h-7 bg-surface-container-lowest border border-outline-variant text-center font-data-mono text-code-sm" type="text" value="1"/>
+<span class="font-label-caps text-[11px] text-on-surface-variant">of 484</span>
+</div>
+<button class="p-1 hover:bg-surface-bright text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="p-1 hover:bg-surface-bright text-on-surface-variant">
+<span class="material-symbols-outlined">last_page</span>
+</button>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Navigation Suppressed as per "Destination" Rule for focused task page -->
+</body></html>
