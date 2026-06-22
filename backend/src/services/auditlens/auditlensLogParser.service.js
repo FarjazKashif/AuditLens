@@ -1,17 +1,32 @@
 // Parses uploaded AuditLens log text into records for the normalized event pipeline.
 export function parseAuditLensLogBuffer(buffer, sourceName) {
+  return collectLogLines(buffer)
+    .map((line) => parseLogLine(line, sourceName))
+    .filter(Boolean);
+}
+
+function collectLogLines(buffer) {
   return buffer
     .toString("utf8")
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter((line) => line && !line.startsWith("#"))
-    .map((line) => parseLogLine(line, sourceName))
-    .filter(Boolean);
+    .reduce((lines, line) => {
+      if (isIsoTimestampStart(line) || lines.length === 0) {
+        lines.push(line);
+        return lines;
+      }
+
+      const previous = lines[lines.length - 1];
+      const separator = hasUnclosedQuote(previous) ? " " : "";
+      lines[lines.length - 1] = `${previous}${separator}${line}`;
+      return lines;
+    }, []);
 }
 
 function parseLogLine(line, sourceName) {
   const [timestamp, eventType, ...rest] = splitLogPrefix(line);
-  if (!timestamp || !eventType) return null;
+  if (!timestamp || !eventType || Number.isNaN(Date.parse(timestamp))) return null;
 
   const fields = parseKeyValueFields(rest.join(" "));
   const message = fields.message || line;
@@ -43,6 +58,15 @@ function parseLogLine(line, sourceName) {
 function splitLogPrefix(line) {
   const match = line.match(/^(\S+)\s+(\S+)\s*(.*)$/);
   return match ? [match[1], match[2], match[3]] : [];
+}
+
+function isIsoTimestampStart(line) {
+  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z\b/.test(line);
+}
+
+function hasUnclosedQuote(value) {
+  const quoteCount = (value.match(/"/g) || []).length;
+  return quoteCount % 2 === 1;
 }
 
 function parseKeyValueFields(value) {

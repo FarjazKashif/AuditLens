@@ -147,20 +147,23 @@ async def generate_grounded_answer(question: str, matches: list[dict[str, str]])
         for match in matches
     )
 
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY") or os.getenv("OPENAI_API_KEY")
     if not api_key:
         return (
             "Evidence summary:\n"
             + "\n".join(f"- {match['text'][:260].strip()}" for match in matches)
-            + "\n\nSet OPENAI_API_KEY to enable GPT-4 analyst-style synthesis."
+            + "\n\nSet GROQ_API_KEY to enable analyst-style synthesis."
         )
 
     try:
         from openai import OpenAI
 
-        client = OpenAI(api_key=api_key)
+        client = OpenAI(
+            api_key=api_key,
+            base_url=os.getenv("OPENAI_BASE_URL", "https://api.groq.com/openai/v1"),
+        )
         response = client.chat.completions.create(
-            model=os.getenv("OPENAI_MODEL", "gpt-4"),
+            model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
             messages=[
                 {
                     "role": "system",
@@ -179,7 +182,7 @@ async def generate_grounded_answer(question: str, matches: list[dict[str, str]])
         return response.choices[0].message.content or ""
     except Exception as exc:
         return (
-            "Evidence was retrieved, but GPT-4 synthesis failed. "
+            "Evidence was retrieved, but analyst-style synthesis failed. "
             f"Error: {exc}\n\nEvidence summary:\n"
             + "\n".join(f"- {match['text'][:260].strip()}" for match in matches)
         )

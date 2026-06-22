@@ -14,7 +14,7 @@ const rawLogSchema = new mongoose.Schema(
     },
     errors: [{ type: String }]
   },
-  { timestamps: true }
+  { timestamps: true, suppressReservedKeysWarning: true }
 );
 
 export const RawLog = mongoose.model("RawLog", rawLogSchema);

@@ -7,6 +7,7 @@ import { errorHandler } from "./utils/errorHandler.js";
 export function createApp() {
   const app = express();
 
+  // Initial Commit
   app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5173" }));
   app.use(express.json({ limit: "5mb" }));
   app.use(morgan("dev"));
