@@ -1,8 +1,7 @@
 // Uploads security evidence files to the Express AuditLens ingest proxy.
 import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
-
-const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import { apiBaseUrl, parseApiResponse } from "../../lib/api.js";
 
 export function LogUpload() {
   const [status, setStatus] = useState(null);
@@ -26,11 +25,7 @@ export function LogUpload() {
         method: "POST",
         body: formData
       });
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error?.message || "Upload failed");
-      }
+      const result = await parseApiResponse(response);
 
       setStatus(`Indexed ${result.chunks} chunks and normalized ${result.normalizedEvents || 0} events from ${result.filename}`);
     } catch (uploadError) {

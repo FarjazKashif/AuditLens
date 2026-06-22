@@ -1,8 +1,7 @@
 // Sends analyst questions through Express to the AuditLens RAG query endpoint.
 import { useState } from "react";
 import { Search } from "lucide-react";
-
-const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import { apiBaseUrl, parseApiResponse } from "../../lib/api.js";
 
 export function QueryPanel() {
   const [question, setQuestion] = useState("");
@@ -27,11 +26,7 @@ export function QueryPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed })
       });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || "Query failed");
-      }
+      const data = await parseApiResponse(response);
 
       setResult(data);
     } catch (queryError) {
