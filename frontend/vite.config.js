@@ -10,7 +10,8 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 8080,
     allowedHosts: [
-      "auditlens.up.railway.app"
+      "auditlens.up.railway.app",
+      "auditlensfrontend-production.up.railway.app"
     ]
   }
 });
